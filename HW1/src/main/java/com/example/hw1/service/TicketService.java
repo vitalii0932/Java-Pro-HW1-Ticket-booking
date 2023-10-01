@@ -48,7 +48,7 @@ public class TicketService {
     public String ticketBooking(String src, String dest, String dateTime) {
         List<Ticket> ticketList = ticketDAO.getTicketList();
         String[] result = new String[2];
-        result[1] = " , , ,";
+        result[1] = " , , , ,";
         Boolean check = false;
         for (Ticket ticket : ticketList) {
             if(ticket.getSrc().equals(src) && ticket.getDest().equals(dest) && ticket.getDateTime().equals(dateTime)) {
@@ -56,7 +56,8 @@ public class TicketService {
                 if (!ticket.getBooked()) {
                     ticket.setBooked(true);
                     result[0] = "Білет успішно забраньовано";
-                    result[1] = ticket.getSrc() + "," + ticket.getDest() + "," + ticket.getDateTime() + "," + ticket.getPrice() + ",";
+                    result[1] = ticket.getSrc() + "," + ticket.getDest() + "," + ticket.getDateTime() + "," + String.valueOf(ticket.getPrice()) + ",";
+                    return getHTML("Бронювання білетів", result[0], result[1]);
                 }
             }
         }
@@ -113,6 +114,8 @@ public class TicketService {
                 "    <tbody>\n";
 
         String table = "";
+
+        System.out.println(Arrays.toString(dataset));
 
         for(int i = 0; i < dataset.length; i += 4) {
             table += String.format("<tr>\n" +
